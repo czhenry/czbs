@@ -1,0 +1,18 @@
+#N canvas 2 85 956 775 10;
+#X obj 801 370 print stdout;
+#X msg 386 14 anything else;
+#X obj 477 95 batchmgmt-top loopback-test-batch.pd;
+#X msg 300 16 anything;
+#X msg 498 20 1 2 3;
+#X msg 558 19 list 1 2 3;
+#X obj 477 415 batchmgmt-top loopback-test-batch.pd;
+#X obj 316 370 print output 1st process;
+#X obj 315 690 print output 2nd process;
+#X connect 1 0 2 0;
+#X connect 2 0 7 0;
+#X connect 2 0 6 0;
+#X connect 2 1 0 0;
+#X connect 3 0 2 0;
+#X connect 4 0 2 0;
+#X connect 5 0 2 0;
+#X connect 6 0 8 0;
