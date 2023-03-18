@@ -1,0 +1,65 @@
+#N canvas 842 183 888 767 12;
+#X obj 22 41 inlet~;
+#X obj 251 39 inlet;
+#X text 247 16 threshold;
+#X text 29 165 rising edge detection;
+#X obj 23 188 fexpr~ ($x1[-1]<$f2)&($x1[0]>$f2);
+#X obj 411 40 inlet;
+#X obj 547 41 inlet;
+#X obj 251 125 f \$1;
+#X obj 411 126 f \$2;
+#X obj 547 127 f \$3;
+#X obj 688 127 f \$4;
+#X text 407 21 initial frequency;
+#X text 548 19 phase update (0-1);
+#X obj 687 41 inlet;
+#X text 688 19 freq update (0-1);
+#X obj 722 73 loadbang;
+#X text 465 354 what is being tracked inside fexpr:;
+#X text 466 376 a phasor (0-1) in $y1;
+#X text 470 402 frequency in $y2;
+#X text 466 430 phase update amount in $y3;
+#X text 473 455 freq update amount in $y4;
+#X obj 730 128 samplerate~;
+#X obj 704 233 /;
+#X msg 690 202 1;
+#X obj 690 175 t b f;
+#X text 472 475 accumulated phase in $y5;
+#X text 732 232 1/samplerate in $f5;
+#X obj 22 525 outlet~;
+#X obj 99 525 outlet~;
+#X text 429 551 Inputs to the frequency parameter trigger an update
+;
+#X text 435 573 to the frequency immediately;
+#X text 46 241 20 samples de-bounce;
+#X obj 23 263 fexpr~ if($y2<1 \, 0 \, $x1) \; if($y1>0 \, 0 \, $y2+1.0/20)
+;
+#X obj 23 360 fexpr~ modf($y1+$f5*$y2+$f3*$x1*$y3) \; if($y6!=$y6[-2]
+\, $y6 \, $y2+$f4*$x1*$y4) \; if($y5<0.5 \, 0 \, if($y5<1.5 \, 1-$y5
+\, if($y5<2 \, 2-$y5 \, 0))) \; if($y5<0.5 \, $y2 \, if($y5<2 \, (1-$y5)/$y5*$y2
+\, -0.707*$y2/sqrt($y5))) \; if($x1[-1]==1 \, $y1+$f5*$y2 \, $y5+$f5*$y2)
+\; if($y6!=$f2 \, $f2 \, $y6);
+#X text 475 500 check for new frequency in $y6;
+#X connect 0 0 4 0;
+#X connect 1 0 7 0;
+#X connect 4 0 32 0;
+#X connect 5 0 8 0;
+#X connect 6 0 9 0;
+#X connect 7 0 4 1;
+#X connect 8 0 33 1;
+#X connect 9 0 33 2;
+#X connect 10 0 33 3;
+#X connect 13 0 10 0;
+#X connect 15 0 9 0;
+#X connect 15 0 10 0;
+#X connect 15 0 8 0;
+#X connect 15 0 7 0;
+#X connect 15 0 21 0;
+#X connect 21 0 24 0;
+#X connect 22 0 33 4;
+#X connect 23 0 22 0;
+#X connect 24 0 23 0;
+#X connect 24 1 22 1;
+#X connect 32 0 33 0;
+#X connect 33 0 27 0;
+#X connect 33 1 28 0;
